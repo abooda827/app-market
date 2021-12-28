@@ -1,0 +1,84 @@
+<div class="container">
+  <div class="row">
+    <div
+      class="product-card col-lg-3 col-md-6 col-sm-12"
+      *ngFor="
+        let good of goods
+          | paginate: { itemsPerPage: 4, currentPage: pageActual }
+      "
+    >
+      <!-- single product item two -->
+      <div class="single-product-item-two">
+        <div class="img-wrapper">
+          <img [src]="good.imageUrl" class="card-img-top" [alt]="good.name" />
+          <div class="hover">
+            <button
+              class="btn addtocart"
+              (click)="addToCart(good.id)"
+              *ngIf="add !== good.id"
+            >
+              Add to cart
+            </button>
+          </div>
+        </div>
+        <div class="content">
+          <a href="#" class="category">Food</a>
+          <h4 class="title">{{ good.name | titlecase }}</h4>
+          <div class="price">
+            <span class="sprice">{{ good.price * 0.8 | currency }}</span>
+            <span class="dprice"
+              ><del>{{ good.price | currency }}</del></span
+            >
+            <div *ngIf="add === good.id">
+              <input
+                type="number"
+                class="form-control"
+                placeholder="Amount (Kg)"
+                #amount
+              />
+              <br />
+              <div class="btn btn-success" (click)="buy(amount.value)">Buy</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- //.single product item two -->
+  </div>
+  <div class="pagination-controls">
+    <pagination-controls
+      (pageChange)="onPageChange($event)"
+      *ngIf="!loadingSpinner"
+    ></pagination-controls>
+  </div>
+  <!-- <div class="row">
+        <div
+        class="col col-sm-12 col-md-6 col-lg-3"
+        *ngFor="let good of goods | paginate: { itemsPerPage: 4, currentPage: pageActual } ;index as i ">
+            <div class="card">
+                <img [src]="good.imageUrl" class="card-img-top" [alt]="good.name">
+                <div class="card-body">
+                    <h5 class="card-title">{{ good.name | titlecase }}</h5>
+                    <p class="card-text">{{ good.price |currency }}</p>
+                    <button
+                    class="btn btn-primary"
+                    (click)="addToCart(i)"
+                    *ngIf="add !== i"
+                    >Add to cart</button>
+                </div>
+                <div *ngIf="add === i">
+                    <input
+                    type="number"
+                    class="form-control"
+                    placeholder="Amount (Kg)"
+                    #amount
+                    >
+                    <div class="btn btn-success" (click)="buy(amount.value)">Buy</div>
+                </div>
+            </div>
+        </div>
+        <pagination-controls (pageChange)="pageActual = $event" *ngIf="!loadingSpinner"></pagination-controls>
+    </div> -->
+
+  <app-loading-spinner *ngIf="loadingSpinner"></app-loading-spinner>
+</div>
